@@ -49,9 +49,9 @@ function ReviewItem({ item }: { item: ReviewFullInfo }) {
           }
         >
           {item.userLike ? (
-            <FavoriteOutlinedIcon fontSize="small" style={{ color: "red" }} />
+            <FavoriteOutlinedIcon style={{ color: "red", fontSize: "16px" }} />
           ) : (
-            <FavoriteBorderOutlinedIcon fontSize="small" />
+            <FavoriteBorderOutlinedIcon style={{ fontSize: "16px" }} />
           )}
           <p className={fontSizeLastLine + " ml-2"}>{item.likeCount}</p>
         </div>
