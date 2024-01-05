@@ -30,13 +30,13 @@ async function reviewWithLikeData(
     });
   }
 
-  const likeCount = await countReviewLikes(review.id);
+  const likeCount = await countReviewLikes(review.id!);
   return { ...review, userLike: Boolean(userLikeData), likeCount };
 }
 
 export async function getAllReviewsByUser(): Promise<ReviewFullInfo[]> {
   const userId = await getUserId();
-  const data = await prisma.review.findMany({
+  const data: any = await prisma.review.findMany({
     where: {
       authorId: userId,
     },
@@ -57,7 +57,7 @@ export async function getReviewsByAlbum(
   } catch (err) {
     userId = "guest";
   }
-  const data = await prisma.review.findMany({
+  const data: any = await prisma.review.findMany({
     where: {
       albumId,
     },
@@ -86,7 +86,7 @@ export async function getUserAlbumReview(
   } catch (err) {
     return;
   }
-  const data = await prisma.review.findFirst({
+  const data: any = await prisma.review.findFirst({
     where: {
       authorId: userId,
       albumId: albumId,

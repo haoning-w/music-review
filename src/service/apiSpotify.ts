@@ -10,11 +10,7 @@ import {
 import prisma from "@/utils/db";
 
 export async function getSpotifyToken(): Promise<string> {
-  const rawToken: {
-    id: number;
-    token: string;
-    updatedAt: string;
-  } = await prisma.spotifyToken.findFirst();
+  const rawToken = await prisma.spotifyToken.findFirst();
   if (rawToken) {
     const isTokenValid =
       Date.now() - Number(rawToken.updatedAt) < 60 * 50 * 1000;

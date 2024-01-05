@@ -1,5 +1,5 @@
 import {
-  type UpdateUserInfo,
+  type UpdateUserInfoData,
   type UserBasicInfo,
   type UserFullInfo,
 } from "@/types/userType";
@@ -24,7 +24,7 @@ export const getUserId = async (): Promise<number> => {
       auth0Id,
     },
   });
-  return data.id;
+  return data!.id;
 };
 
 export const getUserLikesCount = async (): Promise<number> => {
@@ -54,7 +54,7 @@ export async function getUserInfo(): Promise<UserBasicInfo> {
       auth0Id,
     },
   });
-  return data;
+  return data!;
 }
 
 export async function getUserFullInfo(): Promise<UserFullInfo> {
@@ -64,7 +64,7 @@ export async function getUserFullInfo(): Promise<UserFullInfo> {
   return { name: user.name, email: user.email, likesCount, reviewsCount };
 }
 
-export async function updateUserInfo(data: UpdateUserInfo) {
+export async function updateUserInfo(data: UpdateUserInfoData) {
   const auth0Id = await getAuth0Id();
   await prisma.user.update({
     where: {
