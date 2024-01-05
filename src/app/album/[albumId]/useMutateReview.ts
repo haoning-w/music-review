@@ -13,7 +13,7 @@ function useMutateReview() {
   const { mutate: mutateReview, isPending: isMutatingReview } = useMutation({
     mutationFn: ({ reviewData, method, albumId }: Params) =>
       mutateReviewApi({ reviewData, method, albumId }),
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Successfully submitted!");
     },
     onError: (err) => toast.error(err.message),
