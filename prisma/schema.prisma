@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "./generated/client"
+}
+
+datasource db {
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model User {
+    id              Int               @id @default(autoincrement())
+    createdAt       DateTime          @default(now())
+    updatedAt       DateTime          @updatedAt
+    auth0Id         String            @unique @default("")
+    name            String
+    email           String            @unique
+    Review          Review[]
+    UserReviewLikes UserReviewLikes[]
+}
+
+model Review {
+    id              Int               @id @default(autoincrement())
+    createdAt       DateTime          @default(now())
+    updatedAt       DateTime          @updatedAt
+    rating          Int
+    albumId         String
+    content         String            @db.Text
+    authorId        Int
+    author          User              @relation(fields: [authorId], references: [id])
+    UserReviewLikes UserReviewLikes[]
+}
+
+model UserReviewLikes {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    userId    Int
+    user      User     @relation(fields: [userId], references: [id])
+    reviewId  Int
+    review    Review   @relation(fields: [reviewId], references: [id])
+}
+
+model SpotifyToken {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    token     String
+}
