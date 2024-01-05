@@ -16,7 +16,7 @@ function ReviewItem({ item }: { item: ReviewFullInfo }) {
   const { albumId }: { albumId: string } = useParams();
   const { user } = useUser();
   const { mutateLikeReview, isMutatingLikeReview } = useMutateLikeReview(
-    item.id,
+    item.id!,
     method,
     albumId
   );
@@ -30,13 +30,13 @@ function ReviewItem({ item }: { item: ReviewFullInfo }) {
   return (
     <li className="px-4 mt-4 mx-2 py-2 last:mb-12 bg-green-50 rounded-2xl">
       <div className="flex align-middle justify-between gap-2">
-        <h1 className="my-auto text-base">{item.author.name}</h1>
+        <h1 className="my-auto text-base">{item.author!.name}</h1>
         <MiniStars rating={item.rating} />
       </div>
       <p className="py-2">{item.content}</p>
       <div className="mt-2 flex align-middle justify-between">
         <h3 className={fontSizeLastLine}>
-          {new Date(item.updatedAt).toLocaleString()}
+          {new Date(item.updatedAt!).toLocaleString()}
         </h3>
         <div
           className="flex align-middle hover:cursor-pointer"
