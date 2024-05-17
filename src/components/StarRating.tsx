@@ -14,8 +14,8 @@ function StarRating({ rating = 0, setRating, isDisabled }: StarRatingProps) {
     "inline-block " +
     (isDisabled ? "cursor-not-allowed" : "hover:cursor-pointer");
   return (
-    <div className="px-32 py-2 my-4 w-24 mx-auto rounded-2xl bg-color-white-2 hover:bg-color-white-3 transition duration-300 block">
-      <div className="flex align-middle justify-around ">
+    <div className="px-8 py-2 my-4 w-full rounded-2xl bg-color-white-2 hover:bg-color-white-3 transition duration-300 block">
+      <div className="flex align-middle justify-around">
         {Array.from({ length: 5 }, (_, i) => {
           return (
             <div
