@@ -13,6 +13,7 @@ import {
 import { createUser, getUserFullInfo } from "@/service/apiUser";
 import { getSession } from "@auth0/nextjs-auth0";
 import { type ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Music Review",
@@ -56,6 +57,7 @@ export default async function RootLayout({
               </div>
             </HydrationBoundary>
           </Providers>
+          <Analytics />
         </body>
       </UserProvider>
     </html>
