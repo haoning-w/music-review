@@ -77,6 +77,10 @@ const generateRandomReviews = (albumId: string, numReviews = 5) => {
     "it didn't quite meet my expectations.",
     "it's an amazing masterpiece.",
     "it has a few great tracks, but overall it's not for me.",
+    "the production quality is impressive.",
+    "the lyrics are deeply meaningful.",
+    "the sound feels repetitive after a while.",
+    "it's a mixed bag with some highlights.",
   ];
 
   const closingRemarks = [
@@ -86,6 +90,8 @@ const generateRandomReviews = (albumId: string, numReviews = 5) => {
     "It's worth checking out if you enjoy this genre.",
     "I might come back to this one later.",
     "Not my favorite, but others might love it.",
+    "I'll add it to my playlist for sure.",
+    "I won't be revisiting this album."
   ];
 
   const sampleContent = [...Array(numReviews)].map(() => {
@@ -97,6 +103,7 @@ const generateRandomReviews = (albumId: string, numReviews = 5) => {
 
   return [...Array(numReviews)].map((_, i) => {
     const randomUser = sampleUsers[Math.floor(Math.random() * sampleUsers.length)];
+    const now = new Date().toISOString();  // Convert date to string in ISO format
     return {
       id: i + 1,  // Temporary ID
       albumId,
@@ -106,12 +113,14 @@ const generateRandomReviews = (albumId: string, numReviews = 5) => {
         name: randomUser.name,
         email: randomUser.email,  // Add email field to match expected structure
       },
-      createdAt: new Date(),
+      createdAt: now,  // Set valid createdAt as a string
+      updatedAt: now,  // Set valid updatedAt as a string
       userLike: false,  // Default for fake reviews
       likeCount: 0,     // No likes for generated reviews
     };
   });
 };
+
 
 export async function getReviewsByAlbum(
   albumId: string
