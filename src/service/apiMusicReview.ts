@@ -48,6 +48,59 @@ export async function getAllReviewsByUser(): Promise<ReviewFullInfo[]> {
   return dataWithLikeData;
 }
 
+// Generate some random reviews if an album has no review
+// Just to demonstrate the website's functionality
+const generateRandomReviews = (albumId: string, numReviews = 5) => {
+  const sampleUsers = ['Alice', 'Bob', 'Charlie', 'Dana', 'Eve', 'Frank', 'Grace'];
+  
+  // Sentence components for diversity
+  const openingPhrases = [
+    "I recently listened to this album and",
+    "This album really surprised me,",
+    "Honestly,",
+    "After hearing a few tracks,",
+    "I've been listening to this album all week and",
+    "From the first track,",
+  ];
+
+  const albumComments = [
+    "it's absolutely fantastic.",
+    "I think it's a bit overrated.",
+    "I can't stop listening to it.",
+    "it didn't quite meet my expectations.",
+    "it's an amazing masterpiece.",
+    "it has a few great tracks, but overall it's not for me.",
+  ];
+
+  const closingRemarks = [
+    "Highly recommend it!",
+    "Would definitely give it another listen.",
+    "Probably won’t listen to it again.",
+    "It's worth checking out if you enjoy this genre.",
+    "I might come back to this one later.",
+    "Not my favorite, but others might love it.",
+  ];
+
+  const sampleContent = [...Array(numReviews)].map(() => {
+    const randomOpening = openingPhrases[Math.floor(Math.random() * openingPhrases.length)];
+    const randomAlbumComment = albumComments[Math.floor(Math.random() * albumComments.length)];
+    const randomClosing = closingRemarks[Math.floor(Math.random() * closingRemarks.length)];
+    return `${randomOpening} ${randomAlbumComment} ${randomClosing}`;
+  });
+
+  return [...Array(numReviews)].map((_, i) => ({
+    id: i + 1,  // Temporary ID
+    albumId,
+    rating: Math.floor(Math.random() * 5) + 1,  // Random rating from 1 to 5
+    content: sampleContent[i],
+    author: { name: sampleUsers[Math.floor(Math.random() * sampleUsers.length)] },  // Random author name
+    createdAt: new Date(),
+    userLike: false,  // Default for fake reviews
+    likeCount: 0,     // No likes for generated reviews
+  }));
+};
+
+
 export async function getReviewsByAlbum(
   albumId: string
 ): Promise<ReviewFullInfo[]> {
@@ -69,6 +122,11 @@ export async function getReviewsByAlbum(
       },
     },
   });
+
+  if (data.length === 0) {
+    const randomReviews = generateRandomReviews(albumId, 5);
+    return randomReviews;
+  }
 
   const dataWithLikeData = await Promise.all(
     data.map((item: ReviewBasicInfo) => reviewWithLikeData(item, userId))
