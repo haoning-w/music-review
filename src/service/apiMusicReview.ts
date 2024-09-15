@@ -61,6 +61,7 @@ const generateRandomReviews = (albumId: string, numReviews = 5) => {
     { name: "Grace", email: "grace@example.com" },
   ];
 
+  // Positive comments for 4-5 star ratings
   const positiveComments = [
     "it's absolutely fantastic.",
     "I can't stop listening to it.",
@@ -70,44 +71,21 @@ const generateRandomReviews = (albumId: string, numReviews = 5) => {
     "I'll add it to my playlist for sure.",
   ];
 
-  const neutralComments = [
-    "it's a mixed bag with some highlights.",
-    "it has a few great tracks, but overall it's not for me.",
-    "the sound feels repetitive after a while.",
-    "it didn't quite meet my expectations.",
-  ];
-
-  const negativeComments = [
-    "I think it's a bit overrated.",
-    "I won't be revisiting this album.",
-    "it's not as good as I expected.",
-  ];
-
+  // Closing remarks (for positive reviews)
   const closingRemarks = [
     "Highly recommend it!",
     "Would definitely give it another listen.",
-    "Probably won’t listen to it again.",
     "It's worth checking out if you enjoy this genre.",
     "I might come back to this one later.",
-    "Not my favorite, but others might love it.",
   ];
 
   // Function to generate review content based on the rating
-  const generateReviewContent = (rating: number) => {
-    let albumComment;
-    if (rating >= 4) {
-      albumComment =
-        positiveComments[Math.floor(Math.random() * positiveComments.length)];
-    } else if (rating === 3) {
-      albumComment =
-        neutralComments[Math.floor(Math.random() * neutralComments.length)];
-    } else {
-      albumComment =
-        negativeComments[Math.floor(Math.random() * negativeComments.length)];
-    }
-    const randomClosing =
+  const generateReviewContent = () => {
+    const albumComment =
+      positiveComments[Math.floor(Math.random() * positiveComments.length)];
+    const closingComment =
       closingRemarks[Math.floor(Math.random() * closingRemarks.length)];
-    return `${albumComment} ${randomClosing}`;
+    return `${albumComment} ${closingComment}`;
   };
 
   // Function to generate a random date between 10 days ago and now
@@ -125,15 +103,15 @@ const generateRandomReviews = (albumId: string, numReviews = 5) => {
   return [...Array(numReviews)].map((_, i) => {
     const randomUser =
       sampleUsers[Math.floor(Math.random() * sampleUsers.length)];
-    const rating = Math.floor(Math.random() * 5) + 1; // Random rating from 1 to 5
-    const content = generateReviewContent(rating); // Content based on rating
+    const rating = Math.floor(Math.random() * 2) + 4; // Only 4 or 5 stars
+    const content = generateReviewContent(); // Content for positive reviews
     const randomDate = generateRandomDate(); // Get a random date between 10 days ago and now
 
     return {
       id: i + 1, // Temporary ID
       albumId,
-      rating, // Set rating
-      content, // Set review content based on rating
+      rating, // Set rating (4 or 5 stars)
+      content, // Set review content for positive ratings
       author: {
         name: randomUser.name,
         email: randomUser.email, // Add email field to match expected structure
