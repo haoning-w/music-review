@@ -51,9 +51,16 @@ export async function getAllReviewsByUser(): Promise<ReviewFullInfo[]> {
 // Generate some random reviews if an album has no review
 // Just to demonstrate the website's functionality
 const generateRandomReviews = (albumId: string, numReviews = 5) => {
-  const sampleUsers = ['Alice', 'Bob', 'Charlie', 'Dana', 'Eve', 'Frank', 'Grace'];
-  
-  // Sentence components for diversity
+  const sampleUsers = [
+    { name: 'Alice', email: 'alice@example.com' },
+    { name: 'Bob', email: 'bob@example.com' },
+    { name: 'Charlie', email: 'charlie@example.com' },
+    { name: 'Dana', email: 'dana@example.com' },
+    { name: 'Eve', email: 'eve@example.com' },
+    { name: 'Frank', email: 'frank@example.com' },
+    { name: 'Grace', email: 'grace@example.com' }
+  ];
+
   const openingPhrases = [
     "I recently listened to this album and",
     "This album really surprised me,",
@@ -88,18 +95,23 @@ const generateRandomReviews = (albumId: string, numReviews = 5) => {
     return `${randomOpening} ${randomAlbumComment} ${randomClosing}`;
   });
 
-  return [...Array(numReviews)].map((_, i) => ({
-    id: i + 1,  // Temporary ID
-    albumId,
-    rating: Math.floor(Math.random() * 5) + 1,  // Random rating from 1 to 5
-    content: sampleContent[i],
-    author: { name: sampleUsers[Math.floor(Math.random() * sampleUsers.length)] },  // Random author name
-    createdAt: new Date(),
-    userLike: false,  // Default for fake reviews
-    likeCount: 0,     // No likes for generated reviews
-  }));
+  return [...Array(numReviews)].map((_, i) => {
+    const randomUser = sampleUsers[Math.floor(Math.random() * sampleUsers.length)];
+    return {
+      id: i + 1,  // Temporary ID
+      albumId,
+      rating: Math.floor(Math.random() * 5) + 1,  // Random rating from 1 to 5
+      content: sampleContent[i],
+      author: {
+        name: randomUser.name,
+        email: randomUser.email,  // Add email field to match expected structure
+      },
+      createdAt: new Date(),
+      userLike: false,  // Default for fake reviews
+      likeCount: 0,     // No likes for generated reviews
+    };
+  });
 };
-
 
 export async function getReviewsByAlbum(
   albumId: string
